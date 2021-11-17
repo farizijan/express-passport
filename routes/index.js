@@ -13,4 +13,11 @@ router.post('/login',
     res.send('Login success!');
   }
 );
+
+router.get('/info', 
+  passport.authenticate('bearer'),
+  function(req, res) {
+    res.send('Success! This is info page.');
+  }
+);
 module.exports = router;

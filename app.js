@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var LocalStrategy = require('passport-local').Strategy;
+var BearerStrategy = require('passport-http-bearer').Strategy;
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,6 +20,16 @@ passport.use(new LocalStrategy(
         return done(null, user);
     }
 ));
+
+passport.use(new BearerStrategy(
+    function(token, done) {
+        var valid = token == '1234567890';
+        var user = { name : "Fariz Izzan", role: "Backend Developer" };
+        if (!valid) { return done(null, false); }
+        return done(null, user, { scope: 'all' });
+    }
+));
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
